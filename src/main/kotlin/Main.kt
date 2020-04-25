@@ -30,7 +30,7 @@ fun Application.getGrades() {
                         "Homework" -> "20% of grade"
                         "Lecture Participation" -> "5% of grade"
                         "Lab Participation" -> "5% of grade"
-                        "Extra Credit" -> "5% of grade"
+                        "Extra Credit" -> "3% of grade"
                         else -> throw Exception("$operation is not supported")
                     }
                     call.respond(result)
