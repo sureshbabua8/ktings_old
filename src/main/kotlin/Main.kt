@@ -14,7 +14,7 @@ import io.ktor.server.netty.Netty
 fun hello(): String {
     return "Hello, world!"
 }
-data class Result(val operation: String, val first: Int, val second: Int, val result: Int)
+//data class Result(val operation: String, val result: Int)
 
 fun Application.adder() {
         val counts: MutableMap<String, Int> = mutableMapOf()
@@ -23,28 +23,31 @@ fun Application.adder() {
             }
         }
         routing {
-            get("/") {
-                call.respondText(hello())
-            }
-            get("/count/{first}") {
-                val firstCount = counts.getOrDefault(call.parameters["first"], 0) + 1
-                counts[call.parameters["first"].toString()] = firstCount
-                call.respondText(firstCount.toString())
-            }
-            get("/{operation}/{first}/{second}") {
+            // get("/") {
+            //     call.respondText(hello())
+            // }
+            // get("/count/{first}") {
+            //     val firstCount = counts.getOrDefault(call.parameters["first"], 0) + 1
+            //     counts[call.parameters["first"].toString()] = firstCount
+            //     call.respondText(firstCount.toString())
+            // }
+            get("/{operation}") {
                 try {
                     val operation = call.parameters["operation"]!!
-                    val first = call.parameters["first"]!!.toInt()
-                    val second = call.parameters["second"]!!.toInt()
+                    //val first = call.parameters["first"]!!.toInt()
+                    //val second = call.parameters["second"]!!.toInt()
                     val result = when(operation) {
-                        "add" -> first + second
-                        "subtract" -> first - second
-                        "multiply" -> first * second
-                        "divide" -> first / second
+                        "MPs" -> "30% of grade"
+                        "Quizzes" -> "24% of grade"
+                        "Exams" -> "6% of grade"
+                        "Homework" -> "20% of grade"
+                        "Lecture Participation" -> "5% of grade"
+                        "Lab Participation" -> "5% of grade"
+                        "Extra Credit" ->"5% of grade"
                         else -> throw Exception("$operation is not supported")
                     }
-                    val addResult = Result(operation, first, second, result)
-                    call.respond(addResult)
+                    //val addResult = Result(operation, first, second, result)
+                    call.respond(result)
                 } catch (e: Exception) {
                     call.respond(io.ktor.http.HttpStatusCode.BadRequest)
                 }
