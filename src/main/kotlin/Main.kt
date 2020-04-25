@@ -11,26 +11,13 @@ import io.ktor.routing.routing
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
 
-fun hello(): String {
-    return "Hello, world!"
-}
-//data class Result(val operation: String, val result: Int)
-
-fun Application.adder() {
+fun Application.getGrades() {
         val counts: MutableMap<String, Int> = mutableMapOf()
         install(ContentNegotiation) {
             gson {
             }
         }
         routing {
-            // get("/") {
-            //     call.respondText(hello())
-            // }
-            // get("/count/{first}") {
-            //     val firstCount = counts.getOrDefault(call.parameters["first"], 0) + 1
-            //     counts[call.parameters["first"].toString()] = firstCount
-            //     call.respondText(firstCount.toString())
-            // }
             get("/{operation}") {
                 try {
                     val operation = call.parameters["operation"]!!
@@ -43,10 +30,9 @@ fun Application.adder() {
                         "Homework" -> "20% of grade"
                         "Lecture Participation" -> "5% of grade"
                         "Lab Participation" -> "5% of grade"
-                        "Extra Credit" ->"5% of grade"
+                        "Extra Credit" -> "5% of grade"
                         else -> throw Exception("$operation is not supported")
                     }
-                    //val addResult = Result(operation, first, second, result)
                     call.respond(result)
                 } catch (e: Exception) {
                     call.respond(io.ktor.http.HttpStatusCode.BadRequest)
@@ -56,5 +42,5 @@ fun Application.adder() {
 }
 
 fun main() {
-    embeddedServer(Netty, port = 8008, module = Application::adder).start(wait = true)
+    embeddedServer(Netty, port = 8000, module = Application::getGrades).start(wait = true)
 }
